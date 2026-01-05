@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Server: Dev (terminal)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/server"
+    },
+    {
+      "name": "Client: Dev (terminal)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/client"
+    },
+    {
+      "name": "AI: Dev (terminal)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"if (Get-Command python -ErrorAction SilentlyContinue) { python -m uvicorn main:app --reload --port 8001 } elseif (Get-Command py -ErrorAction SilentlyContinue) { py -m uvicorn main:app --reload --port 8001 } else { Write-Host 'Python not found. Install Python 3.x (winget install -e --id Python.Python.3.12) and re-run.'; exit 1 }\"",
+      "cwd": "${workspaceFolder}/ai"
+    },
+    {
+      "name": "Open Client (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/client"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Run All (Dev + Browser)",
+      "configurations": [
+        "Server: Dev (terminal)",
+        "Client: Dev (terminal)",
+        "AI: Dev (terminal)",
+        "Open Client (Chrome)"
+      ]
+    }
+  ]
+}

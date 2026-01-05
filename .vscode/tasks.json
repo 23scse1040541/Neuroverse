@@ -1,0 +1,80 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Server: Dev",
+      "type": "npm",
+      "script": "dev",
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Client: Dev",
+      "type": "npm",
+      "script": "dev",
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "problemMatcher": []
+    },
+    {
+      "label": "AI: Install deps",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/ai" },
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-Command",
+        "if (Get-Command python -ErrorAction SilentlyContinue) { python -m pip install -r requirements.txt } elseif (Get-Command py -ErrorAction SilentlyContinue) { py -m pip install -r requirements.txt } else { Write-Host 'Python not found. Install Python 3.x (winget install -e --id Python.Python.3.12) and re-run.'; exit 1 }"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "AI: Dev",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/ai" },
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-Command",
+        "if (Get-Command python -ErrorAction SilentlyContinue) { python -m uvicorn main:app --reload --port 8001 } elseif (Get-Command py -ErrorAction SilentlyContinue) { py -m uvicorn main:app --reload --port 8001 } else { Write-Host 'Python not found. Install Python 3.x (winget install -e --id Python.Python.3.12) and re-run.'; exit 1 }"
+      ],
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "Dev: All",
+      "dependsOn": [
+        "Server: Dev",
+        "Client: Dev",
+        "AI: Dev"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Install: All",
+      "dependsOn": [
+        "Server: Install",
+        "Client: Install",
+        "AI: Install deps"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Server: Install",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "command": "npm install",
+      "problemMatcher": []
+    },
+    {
+      "label": "Client: Install",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "command": "npm install",
+      "problemMatcher": []
+    }
+  ]
+}

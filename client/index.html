@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neuroverse</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  </head>
+  <body>
+    <div id="root">
+      <noscript>Enable JavaScript to run Neuroverse.</noscript>
+      <div style="padding:16px;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;color:#111">
+        Loading Neuroverse...
+      </div>
+    </div>
+    <script type="module">
+      import('/src/main.jsx').catch(e => {
+        const el = document.getElementById('root');
+        if (el) {
+          el.innerHTML = `<div style="padding:16px;background:#fee;color:#900;border:1px solid #fca;">
+            <div style="font-weight:600;">Failed to load app module</div>
+            <div style="margin-top:8px;white-space:pre-wrap;">${String(e && (e.stack||e.message||e))}</div>
+          </div>`;
+        }
+        console.error('Module load error:', e);
+      });
+    </script>
+  </body>
+</html>
